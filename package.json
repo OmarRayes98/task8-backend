@@ -1,5 +1,5 @@
 {
-  "name": "ecommerce-flower-delivery-backend",
+  "name": "task8_simple_dashboard",
   "version": "1.0.0",
   "main": "dist/index.js",
   "dependencies": {
@@ -47,7 +47,7 @@
     "typescript-eslint": "^8.16.0"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts"
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts"
   },
   "author": "",
   "license": "ISC",
