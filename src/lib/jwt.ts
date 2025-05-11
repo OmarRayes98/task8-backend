@@ -19,5 +19,7 @@ export const verifyToken = (token: string) => {
     return JWT.verify(token, process.env.JWT_SECRET!);
   } catch (error) {
     console.error(error);
+     // Let the middleware handle the error
+    throw error;
   }
 };
