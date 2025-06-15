@@ -1,37 +1,31 @@
 import express from "express";
 import upload from "../middleware/itemssPhotoUpload";
-import productController from "../controllers/productController";
-import { adminAuthMiddleware } from "@/middleware/adminAuthMiddleware";
 import { authMiddleware } from "../middleware/authMiddleware";
-import filterMiddleware from "@/middleware/filterMiddleware";
-const router = express.Router();
+import ProductController from "@/controllers/itemController";
+const itemsRouter = express.Router();
 
-router
-  .route("/items")
+itemsRouter
+  .route("/")
   .get(
-    // authMiddleware,
-    filterMiddleware,
-    productController.getProducts
+    ProductController.getProducts
   )
   .post(
-    adminAuthMiddleware,
+    authMiddleware,
     upload.single("image"),
-    productController.addProduct
+    ProductController.addProduct 
   );
 
-router
-  .route("/items/:id")
+itemsRouter
+  .route("/:id")
   .get(
-    // authMiddleware,
-    productController.getProduct
+    ProductController.getProduct
   )
-  .delete(adminAuthMiddleware, productController.deleteProducts)
+  .delete(authMiddleware, ProductController.deleteProducts)
   .put(
-    adminAuthMiddleware,
+    authMiddleware,
     upload.single("image"),
-    productController.editProduct
+    ProductController.editProduct
   );
 
-router.route("/:id/relate").get(productController.getRelatedProducts);
 
-export default router;
+export default itemsRouter;

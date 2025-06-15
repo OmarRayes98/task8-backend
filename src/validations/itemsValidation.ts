@@ -1,7 +1,6 @@
 import z from "zod";
 
-export const validateSchemas = {
-  create: z.object({
+ const addItemSchema =  z.object({
     name: z.string({ required_error: "name is required" }),
     price: z.preprocess(
       (value) => Number(value),
@@ -16,5 +15,9 @@ export const validateSchemas = {
     image: z
       .string({ required_error: "image is required" })
       .min(1, "image cannot be empty"),
-  }),
-};
+  })
+
+const editItemSchema = addItemSchema.partial();
+
+export { addItemSchema, editItemSchema };
+
