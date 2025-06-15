@@ -97,3 +97,18 @@ export const login = async (
     next(error);
   }
 };
+
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return sendResponse(res, 200, {
+      status: "success",
+      data: "Logged out successfully. Please remove the token on the client.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
