@@ -7,7 +7,7 @@ type CreateTokenType = [
 export const createToken = (...[data, options, cb]: CreateTokenType) => {
   try {
     return JWT.sign(data, process.env.JWT_SECRET!, {
-      expiresIn: undefined ,
+      // expiresIn: undefined ,
       ...(options ?? {}),
     });
   } catch (error) {
