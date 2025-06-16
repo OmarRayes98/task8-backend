@@ -47,7 +47,9 @@
     "typescript-eslint": "^8.16.0"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts"
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts",
+    "build": "tsc && tsc-alias",
+    "start": "node ./dist/src/index.js"
   },
   "author": "",
   "license": "ISC",
