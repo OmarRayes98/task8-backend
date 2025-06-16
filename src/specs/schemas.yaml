@@ -1,4 +1,10 @@
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     RegisterUser:
       type: object
@@ -58,6 +64,7 @@ components:
           type: string
         email:
           type: string
+          format: email
         profile_image:
           type: string
         createdAt:
@@ -82,23 +89,17 @@ components:
               type: string
               example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
-    Item:
+    ErrorResponse:
       type: object
       properties:
-        _id:
+        status:
           type: string
-          example: "665bca123abc456d789ef012"
-        name:
+          example: fail
+        message:
           type: string
-          example: "iPhone 15 Pro"
-        image:
-          type: string
-          example: "/public/upload/images/items/iphone15.png"
-        price:
-          type: string
-          example: "999.99"
+          example: Unauthorized or Not found
 
-    CreateItem:
+    ItemInput:
       type: object
       required:
         - name
@@ -114,6 +115,25 @@ components:
         image:
           type: string
           format: binary
+
+    Item:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "665bca123abc456d789ef012"
+        name:
+          type: string
+        price:
+          type: string
+        image:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
 
     ItemResponse:
       type: object
@@ -134,6 +154,10 @@ components:
           type: string
           example: success
         data:
-          type: array
-          items:
-            $ref: "#/components/schemas/Item"
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/Item"
+
