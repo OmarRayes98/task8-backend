@@ -8,6 +8,8 @@ import multer from "multer";
 import authRouter from "./routes/authRoutes";
 import globalErrorHandling from "./controllers/errorController";
 import itemsRouter from "./routes/itemsRoutes";
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from "./config/swagger";
 
 
 const app = express();
@@ -41,6 +43,9 @@ app.use("/public", express.static(path.join(__dirname, "./../public")));
 app.use("/api/v1/auth", authRouter);
 
 app.use("/api/v1/items", itemsRouter);
+
+// Swagger route
+app.use('/swagger-api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(globalErrorHandling);
 

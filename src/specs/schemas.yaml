@@ -1,0 +1,139 @@
+components:
+  schemas:
+    RegisterUser:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - user_name
+        - email
+        - password
+      properties:
+        first_name:
+          type: string
+          example: Omar
+        last_name:
+          type: string
+          example: Rayes
+        user_name:
+          type: string
+          example: omar.dev
+        email:
+          type: string
+          format: email
+          example: omar@example.com
+        password:
+          type: string
+          format: password
+          example: MySecurePass123
+        profile_image:
+          type: string
+          format: binary
+
+    LoginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: omar@example.com
+        password:
+          type: string
+          format: password
+          example: MySecurePass123
+
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        user_name:
+          type: string
+        email:
+          type: string
+        profile_image:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    AuthSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            user:
+              $ref: "#/components/schemas/User"
+            token:
+              type: string
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    Item:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "665bca123abc456d789ef012"
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+        image:
+          type: string
+          example: "/public/upload/images/items/iphone15.png"
+        price:
+          type: string
+          example: "999.99"
+
+    CreateItem:
+      type: object
+      required:
+        - name
+        - price
+        - image
+      properties:
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+        price:
+          type: string
+          example: "999.99"
+        image:
+          type: string
+          format: binary
+
+    ItemResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: object
+          properties:
+            item:
+              $ref: "#/components/schemas/Item"
+
+    ItemsArrayResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
