@@ -19,7 +19,6 @@ export const register = async (
   next: NextFunction
 ) => {
   try {
-    
     const profile_image = req.file?.filename;
     if (profile_image) {
       req.body = {
@@ -36,16 +35,16 @@ export const register = async (
 
     await user.save();
 
-    // const token = createToken({
-    //   id: user._id,
-    //   email: user.email,
-    // });
+    const token = createToken({
+      id: user._id,
+      email: user.email,
+    });
 
     sendResponse(res, 200, {
       status: "success",
       data: {
         user: await user.toFrontend(),
-        // token,
+        token,
       },
     });
   } catch (error) {
@@ -110,5 +109,24 @@ export const logout = async (
     });
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const users = await User.find();
+
+    sendResponse(res, 200, {
+      status: "success",
+      data: {
+        users,
+      },
+    });
+  } catch (err) {
+    next(err);
   }
 };
