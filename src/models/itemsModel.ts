@@ -16,11 +16,14 @@ const ItemSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: false }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-export type TItem = mongoose.InferSchemaType<typeof ItemSchema> & {
-    _id : mongoose.Types.ObjectId;
-};
+export type TItem = Document &
+  mongoose.InferSchemaType<typeof ItemSchema> & {
+    _id: mongoose.Types.ObjectId;
+  };
+
+export const Item = mongoose.model<TItem>("Item", ItemSchema);
 
 export default mongoose.model("Item", ItemSchema);

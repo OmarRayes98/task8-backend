@@ -1,5 +1,5 @@
 import { sendResponse } from "@/utils/sendResponse";
-import Item from "./../models/itemsModel";
+import {Item} from "./../models/itemsModel";
 import { NextFunction, Request, Response } from "express";
 import { addItemSchema, editItemSchema } from "@/validations/itemsValidation";
 
