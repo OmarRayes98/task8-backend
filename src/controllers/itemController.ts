@@ -110,7 +110,7 @@ const ProductController = {
         return;
       }
 
-      product.name = req.body.title ?? product.name;
+      product.name = req.body.name ?? product.name;
       product.price = req.body.price ?? product.price;
       if (req.file) {
         product.image = `/upload/images/items/${req.file.filename}`;
