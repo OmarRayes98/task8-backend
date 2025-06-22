@@ -68,7 +68,7 @@ const ProductController = {
       const data = await addItemSchema.parseAsync(req.body);
 
       const result: any = await cloudinaryUploadImage(imagePath);
-      console.log(result, "result");
+      // console.log(result, "result");
 
       // 6. Change the profilePhoto field in the DB
       data.image = {
