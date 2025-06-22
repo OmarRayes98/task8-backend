@@ -26,7 +26,7 @@ export const register = async (
 ) => {
   try {
     const profile_image = req.file?.path;
-    
+
     // const imagePath = path.join(
     //   process.cwd(),
     //   "public",
@@ -35,8 +35,9 @@ export const register = async (
     //   "register",
     //   profile_image??""
     // );
-    console.log(profile_image, "imagePath");
+    // console.log(profile_image, "imagePath");
 
+    // console.log(profile_image,"req")
     if (profile_image) {
       req.body = {
         ...req.body,
@@ -53,7 +54,7 @@ export const register = async (
 
     //upload to cloudinary
     const result: any = await cloudinaryUploadImage(profile_image);
-    console.log(result, "result");
+    // console.log(result, "result");
 
     // 6. Change the profilePhoto field in the DB
     data.profile_image = {
@@ -68,6 +69,8 @@ export const register = async (
       email: user.email,
     });
 
+    // fs.unlinkSync(profile_image);
+
     sendResponse(res, 200, {
       status: "success",
       data: {
@@ -75,8 +78,6 @@ export const register = async (
         token,
       },
     });
-
-    // fs.unlinkSync(imagePath);
   } catch (error) {
     next(error);
   }

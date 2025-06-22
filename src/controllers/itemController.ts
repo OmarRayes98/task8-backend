@@ -50,21 +50,21 @@ const ProductController = {
 
   async addProduct(req: Request, res: Response, next: NextFunction) {
     try {
-      const image = req.file?.filename;
-      const imagePath = path.join(
-        process.cwd(),
-        "public",
-        "upload",
-        "images",
-        "items",
-        image ?? ""
-      );
-      console.log(imagePath, "imagePath");
+      const image = req.file?.path;
+      // const imagePath = path.join(
+      //   process.cwd(),
+      //   "public",
+      //   "upload",
+      //   "images",
+      //   "items",
+      //   image ?? ""
+      // );
+      // console.log(imagePath, "imagePath");
       if (image) {
         req.body = {
           ...req.body,
           image: {
-            url: imagePath,
+            url: image,
             publicId: null,
           },
         };
@@ -72,7 +72,7 @@ const ProductController = {
 
       const data = await addItemSchema.parseAsync(req.body);
 
-      const result: any = await cloudinaryUploadImage(imagePath);
+      const result: any = await cloudinaryUploadImage(image);
       // console.log(result, "result");
 
       // 6. Change the profilePhoto field in the DB
@@ -88,7 +88,7 @@ const ProductController = {
         image: data.image,
       });
 
-      fs.unlinkSync(imagePath);
+      // fs.unlinkSync(imagePath);
       res.status(201).json({
         status: "success",
         data: {
@@ -145,19 +145,19 @@ const ProductController = {
       product.name = req.body.name ?? product.name;
       product.price = req.body.price ?? product.price;
       if (req.file) {
-        const image = req.file?.filename;
-        const imagePath = path.join(
-          __dirname,
-          `../../public/upload/images/items/${image}`
-        );
+        const image = req.file?.path;
+        // const imagePath = path.join(
+        //   __dirname,
+        //   `../../public/upload/images/items/${image}`
+        // );
 
         //delete old image from cloudinary
         if (product.image?.publicId !== null) {
           await cloudinaryRemoveImage(product.image?.publicId);
-          fs.unlinkSync(imagePath);
+          // fs.unlinkSync(image);
         }
 
-        const result: any = await cloudinaryUploadImage(imagePath);
+        const result: any = await cloudinaryUploadImage(image);
         console.log(result, "result");
 
         // 6. Change the image field in the DB

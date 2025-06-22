@@ -4,13 +4,13 @@ import { Request } from "express";
 
 // Configure multer storage
 const storage = multer.diskStorage({
-  destination: (
-    req: Request,
-    file: Express.Multer.File,
-    cb: (error: Error | null, destination: string) => void
-  ) => {
-    cb(null, "public/upload/images/register");
-  },
+  // destination: (
+  //   req: Request,
+  //   file: Express.Multer.File,
+  //   cb: (error: Error | null, destination: string) => void
+  // ) => {
+  //   cb(null, "public/upload/images/register");
+  // },
   filename: (
     req: Request,
     file: Express.Multer.File,
