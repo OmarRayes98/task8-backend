@@ -10,7 +10,7 @@ import {
   cloudinaryRemoveImage,
   cloudinaryUploadImage,
 } from "@/utils/cloudniary";
-import fs from "fs"
+import fs from "fs";
 
 /*
 1- create user
@@ -26,16 +26,22 @@ export const register = async (
 ) => {
   try {
     const profile_image = req.file?.filename;
+    
     const imagePath = path.join(
-      __dirname,
-      `../../public/upload/images/register/${profile_image}`
+      process.cwd(),
+      "public",
+      "upload",
+      "images",
+      "register",
+      profile_image??""
     );
+    console.log(imagePath, "imagePath");
 
     if (profile_image) {
       req.body = {
         ...req.body,
         profile_image: {
-          url:imagePath,
+          url: imagePath,
           publicId: null,
         },
       };
@@ -72,7 +78,6 @@ export const register = async (
     });
 
     fs.unlinkSync(imagePath);
-
   } catch (error) {
     next(error);
   }

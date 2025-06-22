@@ -52,9 +52,14 @@ const ProductController = {
     try {
       const image = req.file?.filename;
       const imagePath = path.join(
-        __dirname,
-        `../../public/upload/images/items/${image}`
+        process.cwd(),
+        "public",
+        "upload",
+        "images",
+        "items",
+        image ?? ""
       );
+      console.log(imagePath, "imagePath");
       if (image) {
         req.body = {
           ...req.body,
@@ -83,14 +88,13 @@ const ProductController = {
         image: data.image,
       });
 
+      fs.unlinkSync(imagePath);
       res.status(201).json({
         status: "success",
         data: {
           product,
         },
       });
-
-      fs.unlinkSync(imagePath);
     } catch (err) {
       next(err);
     }
