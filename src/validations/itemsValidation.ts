@@ -13,7 +13,7 @@ const addItemSchema = z.object({
       })
   ),
   image: z.object({
-    url: z.string().url(), 
+    url: z.string(), 
     publicId: z.string().nullable().default(null),
   }),
 });
