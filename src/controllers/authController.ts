@@ -25,23 +25,23 @@ export const register = async (
   next: NextFunction
 ) => {
   try {
-    const profile_image = req.file?.filename;
+    const profile_image = req.file?.path;
     
-    const imagePath = path.join(
-      process.cwd(),
-      "public",
-      "upload",
-      "images",
-      "register",
-      profile_image??""
-    );
-    console.log(imagePath, "imagePath");
+    // const imagePath = path.join(
+    //   process.cwd(),
+    //   "public",
+    //   "upload",
+    //   "images",
+    //   "register",
+    //   profile_image??""
+    // );
+    console.log(profile_image, "imagePath");
 
     if (profile_image) {
       req.body = {
         ...req.body,
         profile_image: {
-          url: imagePath,
+          url: profile_image,
           publicId: null,
         },
       };
@@ -51,9 +51,8 @@ export const register = async (
 
     //get path image
 
-    console.log(imagePath, "imagePath");
     //upload to cloudinary
-    const result: any = await cloudinaryUploadImage(imagePath);
+    const result: any = await cloudinaryUploadImage(profile_image);
     console.log(result, "result");
 
     // 6. Change the profilePhoto field in the DB
@@ -77,7 +76,7 @@ export const register = async (
       },
     });
 
-    fs.unlinkSync(imagePath);
+    // fs.unlinkSync(imagePath);
   } catch (error) {
     next(error);
   }

@@ -48,7 +48,6 @@ export const validateSchemas = {
         .object({
           url: z
             .string()
-            .url()
             .default(
               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"
             ),
@@ -58,7 +57,7 @@ export const validateSchemas = {
           url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
           publicId: null,
         }),
-        
+
       password: passwordZodSchema(),
       password_confirmation: passwordZodSchema("password confirmation"),
     })
