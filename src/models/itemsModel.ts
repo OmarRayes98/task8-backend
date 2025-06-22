@@ -8,8 +8,14 @@ const ItemSchema = new mongoose.Schema(
       trim: true,
     },
     image: {
-      type: String,
-      required: true,
+      url: {
+        type: String,
+        required: true,
+      },
+      publicId: {
+        type: String,
+        required: true,
+      },
     },
     price: {
       type: String,

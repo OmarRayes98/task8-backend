@@ -45,8 +45,20 @@ export const validateSchemas = {
       user_name: userNameZodSchema,
       email: userEmailSchema,
       profile_image: z
-        .string({ required_error: "profile image is required" })
-        .min(1, "profile image cannot be empty"),
+        .object({
+          url: z
+            .string()
+            .url()
+            .default(
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"
+            ),
+          publicId: z.string().nullable().default(null),
+        })
+        .default({
+          url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+          publicId: null,
+        }),
+        
       password: passwordZodSchema(),
       password_confirmation: passwordZodSchema("password confirmation"),
     })

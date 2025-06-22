@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
+dotenv.config();
+
 import app from "./app";
 import { Server } from "http";
 import connectDB from "./config/dbConnect";
 
-dotenv.config();
 
 
 process.on("uncaughtException", (err) => {

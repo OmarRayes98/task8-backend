@@ -5,6 +5,12 @@ import { User } from "../models/userModel";
 import mongoose from "mongoose";
 import { sendResponse } from "@/utils/sendResponse";
 import { validateSchemas } from "@/validations/userValidation";
+import path from "path";
+import {
+  cloudinaryRemoveImage,
+  cloudinaryUploadImage,
+} from "@/utils/cloudniary";
+import fs from "fs"
 
 /*
 1- create user
@@ -20,20 +26,37 @@ export const register = async (
 ) => {
   try {
     const profile_image = req.file?.filename;
+    const imagePath = path.join(
+      __dirname,
+      `../../public/upload/images/register/${profile_image}`
+    );
+
     if (profile_image) {
       req.body = {
         ...req.body,
-        profile_image: `/public/upload/images/register/${profile_image}`,
+        profile_image: {
+          url:imagePath,
+          publicId: null,
+        },
       };
-    } else {
-      req.body = { ...req.body, profile_image: "" };
     }
 
     const data = await validateSchemas.signup.parseAsync(req.body);
 
-    const user = await User.create({ ...data });
+    //get path image
 
-    await user.save();
+    console.log(imagePath, "imagePath");
+    //upload to cloudinary
+    const result: any = await cloudinaryUploadImage(imagePath);
+    console.log(result, "result");
+
+    // 6. Change the profilePhoto field in the DB
+    data.profile_image = {
+      url: result.secure_url,
+      publicId: result.public_id,
+    };
+
+    const user = await User.create({ ...data });
 
     const token = createToken({
       id: user._id,
@@ -47,6 +70,9 @@ export const register = async (
         token,
       },
     });
+
+    fs.unlinkSync(imagePath);
+
   } catch (error) {
     next(error);
   }

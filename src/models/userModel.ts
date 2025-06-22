@@ -29,32 +29,38 @@ const userSchema = new mongoose.Schema(
       trim: true,
       // select: false,
     },
-    profile_image:{
-      type: String,
-    }
-
+    profile_image: {
+      type: Object,
+      default: {
+        url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png",
+        publicId: null,
+      },
+    },
   },
   { timestamps: true }
 );
 
-
-
-type UserType = Document & InferSchemaType<typeof userSchema> ;
-
+type UserType = Document & InferSchemaType<typeof userSchema>;
 
 export type { UserType };
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
-   this.password=  CryptoJS.AES.encrypt(this.password,process.env.JWT_SECRET!).toString()
+    this.password = CryptoJS.AES.encrypt(
+      this.password,
+      process.env.JWT_SECRET!
+    ).toString();
     // this.password = await bcryptjs.hash(this.password, 8);
   }
   next();
 });
 
 async function comparePassword(this: UserType, enteredPassword: string) {
-  const existedPassword = CryptoJS.AES.decrypt(this.password.toString(), process.env.JWT_SECRET!).toString(CryptoJS.enc.Utf8)
+  const existedPassword = CryptoJS.AES.decrypt(
+    this.password.toString(),
+    process.env.JWT_SECRET!
+  ).toString(CryptoJS.enc.Utf8);
 
-  return (existedPassword===enteredPassword)
+  return existedPassword === enteredPassword;
 }
 
 userSchema.methods.comparePassword = comparePassword;
@@ -78,4 +84,3 @@ export default mongoose.model<
     toFrontend: typeof toFrontend;
   }
 >("User", userSchema);
-
